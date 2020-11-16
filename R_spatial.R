@@ -22,3 +22,39 @@ bubble(meuse, "zinc")
 
 #Exercise: same for lead
 bubble(meuse,"lead", col="red")
+
+#### installing ggbiplot library
+install.packages("ggbiplot")
+library(ggbiplot)
+
+#ecological dataframe
+
+biofuels <- c(120,200, 350, 570, 750)#array of values: c
+oxidative <- c(1200, 1300, 21000, 34000, 50000)
+
+#dataframe
+d <- data.frame(biofuels, oxidative)
+
+#to plot the data
+ggplot(d, aes (x= biofuels, y=oxidative)) + geom_point()
+
+ggplot(d, aes (x= biofuels, y=oxidative)) + 
+geom_point(size = 5, col= "red")
+
+#lines
+ggplot(d, aes (x= biofuels, y=oxidative)) + geom_line()
+
+#poits+lines
+ggplot(d, aes (x= biofuels, y=oxidative)) + 
+  geom_point(size=3, col="green") +
+  geom_line()
+
+#polygons
+ggplot(d, aes (x= biofuels, y=oxidative)) + geom_polygon()
+
+##import data
+setwd("C:/lab/")
+covid <- read.table("covid_agg.csv", header= TRUE)
+
+
+             
