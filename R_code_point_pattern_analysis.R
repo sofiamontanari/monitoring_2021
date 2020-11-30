@@ -81,3 +81,23 @@ plot(Spoints,  cex=Spoints$cases/10000, col= 'purple3', lwd= 3, add=T)
 ##add coastline
 coastline <- readOGR("ne_10m_coastline.shp")
 plot(coastline, add=TRUE)
+
+####Leonardo Zabotti data
+setwd("C:/lab/")
+leo <- read.table("dati_zabotti.csv", header=T, sep=",")
+head(leo)
+
+#build ppp
+attach(leo)
+summary(leo) #to see what are the minimum and maximum lat and lon
+
+leo_ppp <- ppp(x, y, c(2300000,2325000), c(5005000,5045000))
+plot(leo_ppp)
+
+density_map <- density(leo_ppp)
+plot(density_map)
+points(leo_ppp)
+
+
+
+
