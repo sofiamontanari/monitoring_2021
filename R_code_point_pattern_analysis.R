@@ -98,6 +98,59 @@ density_map <- density(leo_ppp)
 plot(density_map)
 points(leo_ppp)
 
+#####Interpolation of students' data
+setwd("C:/lab/")
+#load data from external file
+load("point_pattern_analysis.RData")
+#see the list of files inside the Rdata
+ls()
+head(leo)
+library(spatstat)
+attach(leo)
+#explaining to R the variables that we want to use 
+marks(leo_ppp) <- chlh
+#smooth the data and plot the map
+cl <- colorRampPalette(c('yellow','orange','red','green'))(100) 
+chlh_map <- Smooth(leo_ppp)
+plot(chlh_map, col= cl)
+points(leo_ppp)
+#the east side of the map is sea, so the amount of ch is lower with respect to the west side
+#point in green part: highest production in terms of ch
 
+#Exercide: do the same for ch in the sediments 
+attach(leo)
+marks(leo_ppp) <- chls
+cl <- colorRampPalette(c('yellow','orange','red','green'))(100) 
+chls_map <- Smooth(leo_ppp)
+plot(chls_map, col= cl)
+points(leo_ppp)
 
+#function to make multipanel
+par(mfrow=c(1,3))
 
+#first graph: density map
+plot(density_map, col=cl)
+points(leo_ppp)
+
+#second graph
+plot(chlh_map, col=cl)
+points(leo_ppp)
+
+#third graph
+plot(chls_map, col=cl)
+points(leo_ppp)
+
+#Exercise: 3 rows and 1 clumn
+par(mfrow=c(3,1))
+
+#first graph: density map
+plot(density_map, col=cl)
+points(leo_ppp)
+
+#second graph
+plot(chlh_map, col=cl)
+points(leo_ppp)
+
+#third graph
+plot(chls_map, col=cl)
+points(leo_ppp)
