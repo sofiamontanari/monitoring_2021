@@ -43,9 +43,66 @@ ext <- c(0,20,35,55)
 copNDVI_Italy <- crop(copNDVI, ext)
 plot(copNDVI_Italy, col=clymax)
 
+# Deforestation example
+#https://earthobservatory.nasa.gov/
+library(raster)
+library(RStoolbox)
 
+defor1 <- brick("defor1_.png")
+#1=NIR, 2=Red, 3=Green
+plotRGB(defor1, 1, 2, 3, stretch="Lin") #r=1, g=2, b=3
+plotRGB(defor1, 2, 1, 3, stretch="Lin") #r=2, g=1, b=3
 
+defor2 <- brick("defor2_.png")
+plotRGB(defor2, 1, 2, 3, stretch="Lin") 
 
+#put images together
+par(mfrow=c(2,1))
+plotRGB(defor1, 1, 2, 3, stretch="Lin")
+plotRGB(defor2, 1, 2, 3, stretch="Lin") 
 
+dev.off() 
 
+# DVI for the first period (NIR-RED) -->  defor1_.1(defor1 -> names)
+dvi1 <- defor1$defor1_.1 - defor1$defor1_.2 
+plot(dvi1)
 
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
+plot(dvi1, col=cl)
+
+# DVI after the cut
+dvi2 <- defor2$defor2_.1 - defor2$defor2_.2
+plot(dvi2)
+
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
+plot(dvi2, col=cl)
+
+#put images together
+par(mfrow=c(2,1))
+plot(dvi1, col=cl, main="DVI before cut")
+plot(dvi2, col=cl, main="DVI after cut")
+
+dev.off()
+
+#difference between dvi1-dvi12
+difdvi <- dvi1 - dvi2
+cld <- colorRampPalette(c('blue','white','red'))(100)
+plot(difdvi, col=cld, main="Amount of energy lost")
+
+hist(difdvi, col="darkred")
+
+#### final part: 
+#defor1
+#defor2
+#dvi1
+#dvi2
+#difdvi
+#histogram
+
+par(mfrow=c(3,2))
+plotRGB(defor1, 1, 2, 3, stretch="Lin")
+plotRGB(defor2, 1, 2, 3, stretch="Lin") 
+plot(dvi1, col=cl, main="DVI before cut")
+plot(dvi2, col=cl, main="DVI after cut")
+plot(difdvi, col=cld, main="Amount of energy lost")
+hist(difdvi, col="darkred", main="positive values mean change")
