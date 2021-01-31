@@ -56,6 +56,8 @@ rasterListToPng <- function (rasterList) {
 rasterListToPng(rasterList) #call function to save the images 
 
 #make a video
-
+au_png <- sprintf("TAN%01d.png", 1:12)
+av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
+utils::browseURL('TAN_video.mp4')
 
 
