@@ -37,6 +37,7 @@ plot(NDVI20_au)
 #Temperature anomaly 
 
 #Images upload 
+
 TAN_global <- list.files(pattern="TAN")
 TAN_global
 list_TAN <- lapply(TAN_global, raster)
@@ -45,6 +46,7 @@ list_TAN
 #CROP Australia
 #FUNCTION to crop all the images at once: first I establish the extent (ext) and I create an empty list. Then, for every element in the function's argument(list_TAN), 
 #I append to the empty list the cropped images with that extent. The function finally returns the new rasteList. 
+
 rasterListCrop <- function (list_TAN) {
  ext <- c(1100,1440,100,400)
   rasterList <- list()
@@ -73,6 +75,6 @@ rasterListToPng(rasterListCrop(list_TAN)) #call function to save the images: the
 #make a video
 au_png <- sprintf("TAN%01dau.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
-utils::browseURL('TAN_video.mp4') #to one the video
+utils::browseURL('TAN_video.mp4') #to open the video
 
 
