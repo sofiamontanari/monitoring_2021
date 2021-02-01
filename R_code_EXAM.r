@@ -6,10 +6,37 @@ library(raster)
 library(RStoolbox)
 library(ncdf4)
 
+#CHANGES IN NDVI (JAN 2019-JAN 2020)
+
+#Upload the .nc files
+NDVI19 <- raster ("c_gls_NDVI300_201901210000_GLOBE_PROBAV_V1.0.1.nc")
+plot(NDVI19)
+
+NDVI20 <- raster ("c_gls_NDVI300_202001210000_GLOBE_PROBAV_V1.0.1.nc")
+plot(NDVI20)
+
+#Crop Australia
+ext <- c()
+NDVI19_au <- crop(NDVI19, ext)
+NDVI20_au <- crop(NDVI20, ext)
+
+#plot them together
+par(mfrow= c(1,2))
+plot(NDVI19_au)
+plot(NDVI20_au)
+
+
+
+
+
+
+
+
+
 
 #Temperature anomaly 
-#Images upload 
 
+#Images upload 
 TAN_global <- list.files(pattern="TAN")
 TAN_global
 list_TAN <- lapply(TAN_global, raster)
@@ -46,6 +73,6 @@ rasterListToPng(rasterListCrop(list_TAN)) #call function to save the images: the
 #make a video
 au_png <- sprintf("TAN%01dau.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
-utils::browseURL('TAN_video.mp4')
+utils::browseURL('TAN_video.mp4') #to one the video
 
 
