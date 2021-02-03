@@ -54,43 +54,38 @@ TAN_global <- list.files(pattern="TAN")
 TAN_global
 list_TAN <- lapply(TAN_global, raster)
 list_TAN
-
-#BOXPLOT
-boxplot(TAN,horizontal=T,axes=T,outline=F, col="red", xlab="Temp_anomaly", ylab="Period")
  
 #CROP Australia
-#FUNCTION to crop all the images at once: first I establish the extent (ext) and I create an empty list. Then, for every element in the function's argument(list_TAN), 
-#I append to the empty list the cropped images with that extent. The function finally returns the new rasteList. 
+#crop all the images at once: first I establish the extent (ext) and I create an empty list. Then, for every element IN list_TAN, 
+#I append to the empty list the cropped images with that extent.
 
-rasterListCrop <- function (list_TAN) {
- ext <- c(1100,1440,100,400)
-  rasterList <- list()
-  for (i in list_TAN) {  
-    rasterList <- append(rasterList, crop(i, ext))  
-    }
-  return (rasterList)
-}
+ext <- c(1100,1440,100,400)
+rasterList <- list()
+for (i in list_TAN) {  
+ rasterList <- append(rasterList, crop(i, ext))
+ }
 
-#FUNCTION to save all the cropped images: cycle through raster list elements and save every raster object as .png
+rasterList
+
+#SAVE all the cropped images: cycle through raster list elements and save every raster object as .png
 #index is used to assign the progressive number to the file name
 
-rasterListToPng <- function (rasterList) {
-  index <- 1
-  for(i in rasterList){
-    fileName <- paste("TAN", index, "au.png", sep="")
-    png(file=fileName)
-    plot(i)
-    dev.off()
-    index <- index + 1
-    }
-}
-
-rasterListToPng(rasterListCrop(list_TAN)) #call function to save the images: the argument is the function which returns the list with the cropped images
+index <- 1
+for(i in rasterList){
+ fileName <- paste("TANau", index, ".png", sep="")
+ png(file=fileName)
+ plot(i)
+ dev.off()
+ index <- index + 1
+ }
 
 #make a video
-au_png <- sprintf("TAN%01dau.png", 1:12)
+au_png <- sprintf("TANau%01d.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
 utils::browseURL('TAN_video.mp4') #to open the video
 
-
+#BOXPLOT
+TANau_list <- list.files(pattern="TANau")
+TANau <- lapply(TANau_list, raster)
+#maybe do a stack???
 
