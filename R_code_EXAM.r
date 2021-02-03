@@ -50,6 +50,15 @@ par(mfrow=c(1,2))
 hist(difNDVI, col="lightgreen", xlab="Changes in NDVI", main= "Histogram")
 boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year", main="Boxplot")
 
+#comparison with fire activity
+fire20 <- brick("FIRMS_2020.jpg")
+plotRGB(fire20, r=1, g=2, b=3, stretch="Lin")
+#plot together
+par(mfrow=c(1,2))
+plotRGB(fire20, r=1, g=2, b=3, stretch="Lin")
+plot(difNDVI, col=cldif)
+
+
 #Temperature anomaly 
 
 #Images upload 
