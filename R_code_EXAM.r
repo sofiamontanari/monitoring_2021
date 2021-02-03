@@ -20,31 +20,35 @@ NDVI19_au <- crop(NDVI19_1, ext)
 NDVI20_au <- crop(NDVI20_1, ext)
 
 #plot
-cl <- colorRampPalette(c('white','orange','red'))(100) 
+cl <- colorRampPalette(c('white', 'orange', 'red','darkred'))(100) 
 plot(NDVI19_au, col=cl)
 plot(NDVI20_au, col=cl)
-
-#plot them together
-par(mfrow=c(1,2))
-plot(NDVI19_au, col=cl)
-plot(NDVI20_au, col=cl)
-
 dev.off()
 
 #difference between NDVI: jan2020 - jan2019
 difNDVI <- NDVI20_au - NDVI19_au
+cldif <- colorRampPalette(c('#FFFF00', '#ffe100', '#ff0000', '#0000ff', '#120078'))(100)
+plot(difNDVI, col=cldif)
 
-#plot
-cldif <- colorRampPalette(c('#ffee00', '#ffd000', '#ff5500', '#bf1600'))(100) #HEX color code
+##plot them together
+par(mfrow=c(1,3))
+plot(NDVI19_au, col=cl, main= "NDVI 2019")
+plot(NDVI20_au, col=cl, main= "NDVI 2020")
 plot(difNDVI, col=cldif, main= "LOSS OF VEGETATION 2019-2020")
 
 dev.off()
 
 # histogram
 hist(difNDVI, col="#ccffe8", main= "NDVI differences between 2019 and 2020 bushfire seasons")
+#boxplot
+NDVI <- stack(NDVI19_au, NDVI20_au)
+plot(NDVI)
+boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year")
 
-
-
+#plot together
+par(mfrow=c(1,2))
+hist(difNDVI, col="lightgreen", xlab="Changes in NDVI", main= "Histogram")
+boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year", main="Boxplot")
 
 #Temperature anomaly 
 
@@ -83,9 +87,3 @@ for(i in rasterList){
 au_png <- sprintf("TANau%01d.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
 utils::browseURL('TAN_video.mp4') #to open the video
-
-#BOXPLOT
-TANau_list <- list.files(pattern="TANau")
-TANau <- lapply(TANau_list, raster)
-#maybe do a stack???
-
