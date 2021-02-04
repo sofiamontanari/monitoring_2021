@@ -10,7 +10,9 @@ library(RStoolbox)
 
 #Upload the imges
 NDVI19 <- raster ("NDVI19.png")
+NDVI19
 NDVI20 <- raster ("NDVI20.png")
+NDVI20
 
 #eliminate ocean
 NDVI19_1 <- reclassify(NDVI19, cbind(253:255, NA))
@@ -33,13 +35,17 @@ cldif <- colorRampPalette(c('#FFFF00', '#ffe100', '#ff0000', '#0000ff', '#120078
 #yellow (#FFFF00): areas with the highest decrease in NDVI
 plot(difNDVI, col=cldif)
 
-##plot them together
+##plot them together an save
+jpeg('Loss_vegetation.jpg')
+
 par(mfrow=c(1,3))
 plot(NDVI19_au, col=cl, main= "NDVI 2019")
 plot(NDVI20_au, col=cl, main= "NDVI 2020")
 plot(difNDVI, col=cldif, main= "LOSS OF VEGETATION 2019-2020")
 
 dev.off()
+
+#saving like this the image is too small, it is better to export from "File" -> "Save as" -> ...
 
 # histogram
 hist(difNDVI, col="#ccffe8", main= "NDVI differences between 2019 and 2020 bushfire seasons")
@@ -48,10 +54,12 @@ NDVI <- stack(NDVI19_au, NDVI20_au)
 plot(NDVI)
 boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year")
 
-#plot histogram and boxplot together
+#plot histogram and boxplot together, and save
 par(mfrow=c(1,2))
 hist(difNDVI, col="lightgreen", xlab="Changes in NDVI", main= "Histogram")
 boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year", main="Boxplot")
+
+dev.off()
 
 #comparison with fire activity
 fire2020 <- raster ("fire2020.png") #upload
