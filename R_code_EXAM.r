@@ -19,14 +19,15 @@ NDVI19_1 <- reclassify(NDVI19, cbind(253:255, NA))
 NDVI20_1 <- reclassify(NDVI20, cbind(253:255, NA))
 
 #Crop Australia
-ext <- c(3100,3400,400,800)
+ext <- c(3100,3400,400,800) #establish the extent
 NDVI19_au <- crop(NDVI19_1, ext)
 NDVI20_au <- crop(NDVI20_1, ext)
 
 #change colors to highlight areas with high NDVI index and plot
-cl <- colorRampPalette(c('white', 'orange', 'red','darkred'))(100) 
-plot(NDVI19_au, col=cl)
-plot(NDVI20_au, col=cl)
+cl <- colorRampPalette(c('white', 'orange', 'red','darkred'))(100) #change the color
+par(mfrow=c(1,2))
+plot(NDVI19_au, col=cl, main= "NDVI 2019")
+plot(NDVI20_au, col=cl, main= "NDVI 2020")
 dev.off()
 
 #difference between NDVI: jan2020 - jan2019
