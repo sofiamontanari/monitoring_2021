@@ -49,11 +49,11 @@ dev.off()
 #saving like this the image is too small, it is better to export from "File" -> "Save as" -> ...
 
 # histogram
-hist(difNDVI, col="#ccffe8", main= "NDVI differences between 2019 and 2020 bushfire seasons")
+> hist(difNDVI, col="lightgreen", xlab="Changes in NDVI", main= "Histogram")
 #boxplot
 NDVI <- stack(NDVI19_au, NDVI20_au)
 plot(NDVI)
-boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year")
+boxplot(NDVI,horizontal=T,axes=T,outline=F, col="lightgreen",xlab="NDVI", ylab="Year", main="Boxplot")
 
 #plot histogram and boxplot together, and save
 par(mfrow=c(1,2))
@@ -112,3 +112,15 @@ for(i in rasterList){
 au_png <- sprintf("TANau%01d.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
 utils::browseURL('TAN_video.mp4') #to open the video
+
+#plotRGB
+TANau01 <- raster("TANau1.png")
+TANau07 <- raster("TANau7.png")
+TANau12 <- raster("TANau12.png")
+
+TAN <- stack (TANau01, TANau07, TANau12)
+plotRGB(TAN, red=TANau01, green=TANau07, blue=TANau12, stretch="lin")
+
+
+
+
