@@ -112,15 +112,3 @@ for(i in rasterList){
 au_png <- sprintf("TANau%01d.png", 1:12)
 av::av_encode_video(au_png, 'TAN_video.mp4', framerate = 1)
 utils::browseURL('TAN_video.mp4') #to open the video
-
-#plotRGB
-TANau01 <- raster("TANau1.png")
-TANau07 <- raster("TANau7.png")
-TANau12 <- raster("TANau12.png")
-
-TAN <- stack (TANau01, TANau07, TANau12)
-plotRGB(TAN, red=TANau01, green=TANau07, blue=TANau12, stretch="lin")
-
-
-
-
